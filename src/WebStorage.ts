@@ -31,7 +31,7 @@ export class WebStorage {
   private _getData<T>(_key: string) {
     const _value = this.storage.getItem(_key)
 
-    return _value === null ? _value : this._getOutputData<T>(_value)
+    return _value === null ? null : this._getOutputData<T>(_value)
   }
 
   private _getKey(key: string) {
@@ -101,9 +101,7 @@ export class WebStorage {
    * @param options - Configuration item. For details, see Type
    */
   once<T>(key: string, value: T, options: Omit<StorageOptions, 'isOnce'> = {}) {
-    this.set(key, value, Object.assign(options, {
-      isOnce: true,
-    }))
+    this.set(key, value, { ...options, isOnce: true })
   }
 
   /**
@@ -123,7 +121,7 @@ export class WebStorage {
       const _key = this.storage.key(i)!
 
       if (_key.startsWith(this.prefixKey)) {
-        const key = _key.split(this.prefixKey, 2)[1]
+        const key = _key.slice(this.prefixKey.length)
 
         callbackfn(key, this.get(key))
       }
