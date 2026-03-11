@@ -123,7 +123,7 @@ export class WebStorage {
       if (_key.startsWith(this.prefixKey)) {
         const key = _key.slice(this.prefixKey.length)
 
-        callbackfn(key, this.get(key))
+        callbackfn(key, this._getData(_key))
       }
     }
   }
